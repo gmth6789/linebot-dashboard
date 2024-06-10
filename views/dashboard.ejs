@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Channel ID</th>
+                <th>Created By</th>
+                <th>Bot ID</th>
+                <th>Webhook URL</th>
+                <th>Timestamp</th>
+                <th>Dashboard ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(doc => { %>
+                <tr>
+                    <td><%= doc.channelid %></td>
+                    <td><%= doc.createby %></td>
+                    <td><%= doc.botid %></td>
+                    <td><%= doc.webhookurl %></td>
+                    <td><%= new Date(doc.timestamp).toLocaleString() %></td>
+                    <td><%= doc.dashboard_id %></td>
+                    <td>
+                        <button onclick="copyToClipboard('<%= doc.webhookurl %>')">Copy Webhook URL</button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <script>
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Webhook URL copied to clipboard');
+        }
+    </script>
+</body>
+</html>
